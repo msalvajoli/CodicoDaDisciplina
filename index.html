@@ -23,19 +23,21 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@500&family=Sora:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500&family=JetBrains+Mono:wght@500&family=Sora:wght@400;500;600&display=swap">
 
 <style>
 :root{
-  --canvas:#0B0A09;
-  --panel:#141210;
-  --panel-2:#1B1815;
-  --accent:#D9A227;
-  --accent-hover:#F0BC45;
-  --accent-muted:#5C4A1E;
-  --text-primary:#F4EFE5;
-  --text-secondary:#A39B8E;
-  --line:#2A251E;
+  --canvas:#090908;
+  --panel:#121110;
+  --panel-2:#191716;
+  /* ouro amostrado do logo da marca, um pouco mais claro e menos mostarda */
+  --accent:#D8AE4E;
+  --accent-hover:#E8C46F;
+  --accent-muted:#55461F;
+  --text-primary:#F2EDE4;
+  --text-secondary:#A09B92;
+  --line:#231F1A;
+  --line-hi:#332C24;
   --ease:cubic-bezier(.22,.61,.36,1);
   --ease-out:cubic-bezier(.16,1,.3,1);
   --tshadow:0 1px 2px rgba(5,4,3,.95),0 3px 12px rgba(5,4,3,.8),0 10px 44px rgba(5,4,3,.82);
@@ -50,7 +52,11 @@ html,body{margin:0;padding:0;background:var(--canvas);color:var(--text-primary)}
 body{font-family:Sora,"Segoe UI",system-ui,sans-serif;font-weight:400;line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 img{max-width:100%;display:block}
 a{color:inherit}
-h1,h2,h3{font-family:"Archivo Black","Arial Black",Impact,sans-serif;font-weight:400;line-height:.98;letter-spacing:-.02em;margin:0;text-transform:uppercase}
+/* Bodoni Moda em caixa alta: mesma silhueta de títulos do site original,
+   com o refinamento de uma didone. Caixa alta pede tracking positivo. */
+h1,h2,h3{font-family:"Bodoni Moda",Georgia,"Times New Roman",serif;font-weight:500;
+  line-height:1.02;letter-spacing:.012em;margin:0;text-transform:uppercase;
+  font-optical-sizing:auto}
 p{margin:0}
 button{font:inherit;color:inherit}
 
@@ -63,26 +69,25 @@ button{font:inherit;color:inherit}
 
 /* ---------- ambiente fixo ---------- */
 .amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.amb::before{content:"";position:absolute;inset:-20%;background:
-  radial-gradient(ellipse 60% 45% at 50% 108%,rgba(217,162,39,.16),transparent 62%),
-  radial-gradient(ellipse 70% 50% at 12% -10%,rgba(217,162,39,.05),transparent 60%);
-  animation:ambDrift 78s var(--ease) -24s infinite alternate}
-.amb::after{content:"";position:absolute;inset:0;opacity:.045;
+/* saíram os dois brilhos dourados espalhados, que eram o que mais dava cara de
+   página gerada. ficou uma fonte de luz só, muito fraca, vinda de cima. */
+.amb::before{content:"";position:absolute;left:50%;top:-24vh;width:130vw;height:96vh;
+  transform:translateX(-50%);
+  background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(216,174,78,.05),transparent 68%)}
+.amb::after{content:"";position:absolute;inset:0;opacity:.035;
   background-image:radial-gradient(circle at 50% 50%,#fff 1px,transparent 1.2px);
-  background-size:150px 150px;animation:ambStars 120s linear -40s infinite}
-@keyframes ambDrift{from{transform:translate3d(-2%,1%,0) scale(1.02)}to{transform:translate3d(2%,-2%,0) scale(1.08)}}
-@keyframes ambStars{from{transform:translate3d(0,0,0)}to{transform:translate3d(-150px,-150px,0)}}
+  background-size:170px 170px;animation:ambStars 150s linear -40s infinite}
+@keyframes ambStars{from{transform:translate3d(0,0,0)}to{transform:translate3d(-170px,-170px,0)}}
 
 /* ---------- o Marcador (elemento assinatura) ---------- */
 .rail{position:fixed;left:var(--rail);top:0;bottom:0;width:1px;z-index:30;pointer-events:none;
   background:linear-gradient(to bottom,transparent,var(--line) 8%,var(--line) 92%,transparent)}
-.rail__fill{position:absolute;left:-1px;top:0;width:3px;height:0;
-  background:linear-gradient(to bottom,rgba(217,162,39,.15),var(--accent));
-  box-shadow:0 0 14px rgba(217,162,39,.5)}
-.rail__head{position:absolute;left:-4px;width:9px;height:9px;margin-top:-4px;border-radius:50%;
-  background:var(--accent);box-shadow:0 0 16px rgba(217,162,39,.8);opacity:0}
-.rail__tag{position:fixed;left:calc(var(--rail) + 16px);z-index:30;pointer-events:none;
-  font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:500;font-size:.6rem;letter-spacing:.2em;
+/* o Marcador fica, mas sem brilho e com um fio de 1px em vez de 3px */
+.rail__fill{position:absolute;left:0;top:0;width:1px;height:0;background:var(--accent);opacity:.7}
+.rail__head{position:absolute;left:-2px;width:5px;height:5px;margin-top:-2px;border-radius:50%;
+  background:var(--accent-hover);opacity:0}
+.rail__tag{position:fixed;left:calc(var(--rail) + 15px);z-index:30;pointer-events:none;
+  font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:500;font-size:.55rem;letter-spacing:.2em;
   text-transform:uppercase;color:var(--accent-muted);opacity:0;transform:translateY(-50%);
   transition:opacity .5s var(--ease)}
 .rail.on .rail__head,.rail.on+.rail__tag{opacity:1}
@@ -150,17 +155,19 @@ button{font:inherit;color:inherit}
 .band--c{justify-content:center;--sx:50%}
 /* a faixa de assentamento senta sobre o horizonte dourado, a parte mais clara do quadro:
    elipse unica bem mais funda, mais um escurecimento vertical, auditados a 4.5:1 */
+/* aliviado: a imagem gradeada já escurece o céu, então o scrim não precisa
+   repetir o serviço. o mar de nuvens dourado volta a aparecer. reauditado. */
 .band--c::before{inset:-10%;
-  background:radial-gradient(ellipse 82% 78% at 50% 48%,rgba(4,3,2,.90) 0%,rgba(4,3,2,.80) 42%,rgba(4,3,2,.44) 72%,rgba(4,3,2,0) 94%)}
+  background:radial-gradient(ellipse 74% 60% at 50% 44%,rgba(4,3,2,.91) 0%,rgba(4,3,2,.79) 44%,rgba(4,3,2,.38) 76%,rgba(4,3,2,0) 96%)}
 .band--c::after{content:"";position:absolute;inset:0;pointer-events:none;
   opacity:calc(.25 + .75*var(--k,1));
-  background:linear-gradient(to bottom,rgba(4,3,2,.62) 0%,rgba(4,3,2,.40) 46%,rgba(4,3,2,.18) 74%,rgba(4,3,2,0) 100%)}
+  background:linear-gradient(to bottom,rgba(4,3,2,.60) 0%,rgba(4,3,2,.44) 44%,rgba(4,3,2,.14) 72%,rgba(4,3,2,0) 100%)}
 .band__in{position:relative;z-index:1;max-width:min(48vw,560px)}
 .band--c .band__in{max-width:none;text-align:center}
-.band .h{font-family:"Archivo Black","Arial Black",Impact,sans-serif;font-weight:400;
-  line-height:.98;letter-spacing:-.02em;text-transform:uppercase;margin:0}
-.band h2,.band .h{font-size:clamp(1.7rem,3.7vw,2.9rem);max-width:min(100%,520px)}
-.band--c .band__ttl{font-size:clamp(2.3rem,7.4vw,6rem);max-width:14ch;margin:0 auto}
+.band .h{font-family:"Bodoni Moda",Georgia,"Times New Roman",serif;font-weight:500;
+  line-height:1.04;letter-spacing:.014em;text-transform:uppercase;margin:0;font-optical-sizing:auto}
+.band h2,.band .h{font-size:clamp(1.65rem,3.5vw,2.75rem);max-width:min(100%,560px)}
+.band--c .band__ttl{font-size:clamp(2.2rem,7vw,5.6rem);max-width:14ch;margin:0 auto}
 
 /* letras divididas */
 .w{display:inline-block;white-space:pre}
@@ -225,12 +232,14 @@ main{position:relative;z-index:2}
 .h3{font-size:clamp(1.15rem,2.3vw,1.5rem)}
 
 /* entradas coreografadas */
-.rise{opacity:0;transform:translateY(26px);transition:opacity .95s var(--ease-out),transform .95s var(--ease-out)}
+/* deslocamento curto e tempo menor: a entrada assenta em vez de voar.
+   de 35 elementos para 19, e o escalonamento cabe em meio segundo. */
+.rise{opacity:0;transform:translateY(13px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
 .in .rise{opacity:1;transform:none}
-.in .rise:nth-child(2){transition-delay:.09s}
-.in .rise:nth-child(3){transition-delay:.18s}
-.in .rise:nth-child(4){transition-delay:.27s}
-.in .rise:nth-child(5){transition-delay:.36s}
+.in .rise:nth-child(2){transition-delay:.07s}
+.in .rise:nth-child(3){transition-delay:.14s}
+.in .rise:nth-child(4){transition-delay:.21s}
+.in .rise:nth-child(5){transition-delay:.28s}
 .in.done .rise,.in.done .rise:nth-child(2),.in.done .rise:nth-child(3),
 .in.done .rise:nth-child(4),.in.done .rise:nth-child(5){transition-delay:0s!important}
 
@@ -253,15 +262,20 @@ main{position:relative;z-index:2}
   background:linear-gradient(to bottom,var(--canvas),rgba(11,10,9,.62) 38%,rgba(11,10,9,.72) 66%,var(--canvas))}
 .mirror .wrap{position:relative}
 .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,24px);margin-top:46px}
-.q{position:relative;padding:34px 28px 30px;background:var(--panel);border:1px solid var(--line);
-  border-radius:3px;overflow:hidden;transition:border-color .6s var(--ease),transform .6s var(--ease-out)}
-.q:hover{border-color:var(--accent-muted);transform:translateY(-4px)}
-.q::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent-muted);
-  transform:scaleY(0);transform-origin:top;transition:transform 1s var(--ease) .2s}
+/* cards refinados: raio de 1px, realce de topo em vez de contorno chapado,
+   mais respiro interno e hierarquia real entre o numeral e a frase */
+.q{position:relative;padding:clamp(30px,3.4vw,42px) clamp(26px,2.8vw,36px);
+  background:linear-gradient(to bottom,var(--panel-2),var(--panel) 58%);
+  border:1px solid var(--line);border-top-color:var(--line-hi);border-radius:1px;overflow:hidden;
+  transition:border-color .6s var(--ease),transform .6s var(--ease-out),background .6s var(--ease)}
+.q:hover{border-color:var(--accent-muted);border-top-color:var(--accent-muted);transform:translateY(-3px)}
+.q::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--accent);
+  opacity:.55;transform:scaleY(0);transform-origin:top;transition:transform 1.1s var(--ease) .15s}
 .in .q::before{transform:scaleY(1)}
-.q__n{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.6rem;letter-spacing:.2em;
-  color:var(--accent-muted);margin-bottom:16px}
-.q__t{font-size:1.12rem;line-height:1.45;color:var(--text-primary)}
+.q__n{font-family:"Bodoni Moda",Georgia,serif;font-weight:500;font-size:1.5rem;line-height:1;
+  letter-spacing:.02em;color:var(--accent);margin-bottom:22px;font-optical-sizing:auto}
+.q__t{font-size:clamp(1.08rem,1.5vw,1.2rem);line-height:1.5;color:var(--text-primary);
+  font-weight:500}
 .mirror__close{margin-top:46px;font-size:clamp(1.05rem,2.1vw,1.3rem);max-width:52ch;line-height:1.55}
 .mirror__close b{color:var(--accent);font-weight:600}
 @media (max-width:820px){.quotes{grid-template-columns:1fr}}
@@ -277,15 +291,19 @@ main{position:relative;z-index:2}
 .hold{position:relative;margin:52px auto 0;width:168px;height:168px;display:grid;place-items:center;
   border:0;background:none;cursor:pointer;touch-action:none;-webkit-tap-highlight-color:transparent}
 .hold svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
-.hold__track{fill:none;stroke:var(--line);stroke-width:2}
-.hold__bar{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;
-  stroke-dasharray:440;stroke-dashoffset:440;filter:drop-shadow(0 0 10px rgba(217,162,39,.55))}
-.hold__lbl{position:relative;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.66rem;
-  letter-spacing:.2em;text-transform:uppercase;color:var(--text-secondary);max-width:8ch;line-height:1.5;
-  transition:color .4s var(--ease)}
+/* anel refinado: traço fino, ouro, porcentagem em Bodoni no centro */
+.hold__track{fill:none;stroke:var(--line-hi);stroke-width:1}
+.hold__bar{fill:none;stroke:var(--accent-hover);stroke-width:2;stroke-linecap:round;
+  stroke-dasharray:440;stroke-dashoffset:440}
+.hold__pct{position:relative;display:block;font-family:"Bodoni Moda",Georgia,serif;font-weight:500;
+  font-size:2.3rem;line-height:1;color:var(--text-primary);font-variant-numeric:tabular-nums;
+  font-optical-sizing:auto}
+.hold__lbl{position:relative;display:block;margin-top:9px;font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-secondary);
+  line-height:1.5;transition:color .4s var(--ease)}
 .hold.armed .hold__lbl{color:var(--accent)}
-.hold::after{content:"";position:absolute;inset:14px;border-radius:50%;
-  background:radial-gradient(circle,rgba(217,162,39,.2),transparent 66%);
+.hold::after{content:"";position:absolute;inset:16px;border-radius:50%;
+  background:radial-gradient(circle,rgba(216,174,78,.09),transparent 70%);
   opacity:0;transition:opacity .5s var(--ease)}
 .hold.armed::after{opacity:1}
 .five__win{margin:38px auto 0;max-width:40ch;opacity:0;transform:translateY(14px);
@@ -295,35 +313,40 @@ main{position:relative;z-index:2}
 .five__win .btn{margin-top:26px}
 
 /* 4. o codigo */
-.code{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,64px);align-items:center}
+/* com os 15 capitulos a coluna da direita ficou alta, entao a da esquerda gruda
+   e o titulo acompanha o leitor enquanto a lista passa */
+.code{display:grid;grid-template-columns:.92fr 1.08fr;gap:clamp(30px,5vw,64px);align-items:start}
+.code__side{position:sticky;top:96px}
 .code h2{font-size:clamp(1.8rem,3.8vw,2.9rem);max-width:16ch}
 .code__img{margin-top:30px;aspect-ratio:16/9;background:url('assets/sec-codigo.jpg') center/cover no-repeat;
-  border:1px solid var(--line);border-radius:3px;filter:saturate(.85)}
+  border:1px solid var(--line);border-radius:1px;filter:saturate(.85)}
 .notches{display:grid;border-top:1px solid var(--line)}
-.notch{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:baseline;padding:20px 4px;
-  border-bottom:1px solid var(--line);opacity:.32;
-  transition:opacity .8s var(--ease),background .45s var(--ease)}
+.notch{display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,2.2vw,30px);align-items:start;
+  padding:clamp(22px,2.6vw,30px) 4px;border-bottom:1px solid var(--line);opacity:.3;
+  transition:opacity .9s var(--ease),background .45s var(--ease)}
 .notch.lit{opacity:1}
-.notch:hover{background:rgba(217,162,39,.04)}
-.notch__n{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.8rem;
-  color:var(--accent-muted);transition:color .8s var(--ease)}
+.notch:hover{background:rgba(216,174,78,.028)}
+/* numeral em Bodoni no lugar da monoespaçada pequena: hierarquia de verdade */
+.notch__n{font-family:"Bodoni Moda",Georgia,serif;font-weight:500;font-size:clamp(1.5rem,2.2vw,2rem);
+  line-height:.92;letter-spacing:.02em;color:var(--accent-muted);min-width:2.2ch;
+  transition:color .9s var(--ease);font-optical-sizing:auto}
 .notch.lit .notch__n{color:var(--accent)}
-.notch__t{font-size:1.06rem;font-weight:600;color:var(--text-primary);margin:0 0 5px}
+.notch__t{font-size:clamp(1.06rem,1.5vw,1.2rem);font-weight:600;color:var(--text-primary);
+  margin:0 0 8px;letter-spacing:.002em}
 .notch__d{font-size:.94rem;color:var(--text-secondary);margin:0;max-width:46ch}
 .code__note{margin-top:26px;font-size:.95rem;color:var(--text-secondary);max-width:44ch}
-@media (max-width:860px){.code{grid-template-columns:1fr}}
+@media (max-width:860px){.code{grid-template-columns:1fr}.code__side{position:static}}
 
 /* 5. o produto */
 .prod{position:relative}
 .prod__grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(30px,6vw,76px);align-items:center}
-.prod__shot{position:relative;display:grid;place-items:center;padding:20px}
-.prod__shot::before{content:"";position:absolute;width:78%;height:78%;border-radius:50%;
-  background:radial-gradient(circle,rgba(217,162,39,.3),transparent 68%);filter:blur(34px);
-  animation:prodPulse 7s var(--ease) -2s infinite alternate}
-@keyframes prodPulse{from{opacity:.55;transform:scale(.95)}to{opacity:1;transform:scale(1.06)}}
-/* a capa recuperada tem 480px de altura: teto no tamanho nativo para nao borrar */
-.prod__shot img{position:relative;max-height:min(58vh,480px);width:auto;
-  filter:drop-shadow(0 40px 70px rgba(0,0,0,.7))}
+/* a foto do produto ja traz a propria luz, a propria sombra e o proprio cenario.
+   entao nenhuma luz e nenhuma sombra em CSS aqui: so uma borda que se dissolve,
+   para a fotografia entrar na pagina em vez de ficar colada como retangulo. */
+.prod__shot{position:relative;display:grid;place-items:center}
+.prod__shot img{position:relative;z-index:1;width:100%;height:auto;max-width:520px;
+  -webkit-mask-image:radial-gradient(ellipse 88% 88% at 50% 48%,#000 62%,transparent 100%);
+  mask-image:radial-gradient(ellipse 88% 88% at 50% 48%,#000 62%,transparent 100%)}
 /* display:grid vence o atributo hidden do navegador, entao o reserva precisa ser explicito */
 .prod__fallback[hidden]{display:none}
 .prod__fallback{position:relative;width:min(74%,300px);aspect-ratio:5/7;border:1px solid var(--accent-muted);
@@ -341,18 +364,22 @@ main{position:relative;z-index:2}
 .in .gets li:nth-child(3)::before{transition-delay:.2s}
 .in .gets li:nth-child(4)::before{transition-delay:.3s}
 .gets b{color:var(--text-primary);font-weight:600}
-.buy{margin-top:38px}
-.buy__price{font-family:"Archivo Black","Arial Black",sans-serif;font-size:clamp(2.6rem,6vw,3.6rem);
-  line-height:1;color:var(--text-primary);display:flex;align-items:baseline;gap:4px}
-.buy__cur{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.9rem;color:var(--accent);
-  letter-spacing:.06em;align-self:flex-start;margin-top:.5em}
-.buy__cents{font-size:.5em}
-.buy__note{margin-top:8px;font-size:.9rem;color:var(--text-secondary)}
-.buy .btn{margin-top:24px}
-.buy__seals{list-style:none;display:flex;flex-wrap:wrap;gap:8px 22px;margin:22px 0 0;padding:0}
-.buy__seals li{position:relative;padding-left:17px;font-size:.82rem;color:var(--text-secondary)}
-.buy__seals li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:50%;
-  border:1px solid var(--accent);background:rgba(217,162,39,.22)}
+/* a oferta continua no mesmo lugar do site original, com hierarquia bem mais forte:
+   um fio acima para separar, preco em Bodoni, botao maior, selos com mais presenca */
+.buy{margin-top:40px;padding-top:34px;border-top:1px solid var(--line)}
+.buy__price{font-family:"Bodoni Moda",Georgia,serif;font-weight:500;
+  font-size:clamp(3.4rem,7.6vw,4.9rem);line-height:.92;color:var(--text-primary);
+  display:flex;align-items:baseline;gap:6px;letter-spacing:-.005em;font-optical-sizing:auto}
+.buy__cur{font-family:Sora,sans-serif;font-weight:500;font-size:1rem;color:var(--accent);
+  letter-spacing:.1em;align-self:flex-start;margin-top:.62em}
+.buy__cents{font-size:.46em;color:var(--text-secondary)}
+.buy__note{margin-top:12px;font-size:.9rem;color:var(--text-secondary)}
+.buy .btn{margin-top:30px;padding:17px 36px;font-size:.95rem;letter-spacing:.03em}
+.buy__seals{list-style:none;display:flex;flex-wrap:wrap;gap:10px 26px;margin:26px 0 0;padding:0}
+.buy__seals li{position:relative;padding-left:20px;font-size:.86rem;color:var(--text-primary);
+  font-weight:500}
+.buy__seals li::before{content:"";position:absolute;left:0;top:.58em;width:8px;height:8px;
+  border-radius:50%;border:1px solid var(--accent);background:rgba(216,174,78,.26)}
 @media (max-width:860px){.prod__grid{grid-template-columns:1fr}}
 
 /* 6. objecoes */
@@ -526,7 +553,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   <section class="sec" id="virada" data-tag="01 / A VIRADA">
     <div class="wrap turn">
       <div>
-        <p class="mono rise">// A virada</p>
+        <p class="mono">// A virada</p>
         <h2 class="h2 rise" style="margin-top:18px">Motivação é clima.<br>Disciplina é código.</h2>
         <div class="hr" style="margin:34px 0 30px"></div>
         <p class="lede rise">Clima muda. Você acorda animado numa terça e arrasado na quinta, e os dois dias pedem
@@ -552,18 +579,18 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   <section class="sec mirror" id="espelho" data-tag="02 / O ESPELHO">
     <div class="mirror__bg" aria-hidden="true"></div>
     <div class="wrap">
-      <p class="mono rise">// O espelho</p>
+      <p class="mono">// O espelho</p>
       <h2 class="h2 rise" style="margin-top:18px">Você já sabe como isso termina.</h2>
-      <div class="quotes">
-        <figure class="q rise" style="margin:0">
+      <div class="quotes rise">
+        <figure class="q" style="margin:0">
           <div class="q__n">01</div>
           <blockquote class="q__t" style="margin:0">"Começo empolgado e no terceiro dia largo."</blockquote>
         </figure>
-        <figure class="q rise" style="margin:0">
+        <figure class="q" style="margin:0">
           <div class="q__n">02</div>
           <blockquote class="q__t" style="margin:0">"Fico esperando a segunda-feira certa."</blockquote>
         </figure>
-        <figure class="q rise" style="margin:0">
+        <figure class="q" style="margin:0">
           <div class="q__n">03</div>
           <blockquote class="q__t" style="margin:0">"Achei que o problema era eu."</blockquote>
         </figure>
@@ -577,7 +604,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   <section class="sec five" id="cinco" data-tag="03 / CINCO SEGUNDOS">
     <div class="five__bg" aria-hidden="true"></div>
     <div class="wrap">
-      <p class="mono rise">// Cinco segundos</p>
+      <p class="mono">// Cinco segundos</p>
       <h2 class="h2 rise" style="margin-left:auto;margin-right:auto">Segure o botão por cinco segundos.</h2>
       <p class="five__p rise">É esse o tamanho da decisão que você vem adiando. Não são cinco meses.
         São cinco segundos entre saber o que fazer e começar.</p>
@@ -587,7 +614,10 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
           <circle class="hold__track" cx="80" cy="80" r="70"/>
           <circle class="hold__bar" id="holdBar" cx="80" cy="80" r="70"/>
         </svg>
-        <span class="hold__lbl" id="holdLbl">Segure</span>
+        <span>
+          <span class="hold__pct" id="holdPct">0%</span>
+          <span class="hold__lbl" id="holdLbl">Pressione e segure</span>
+        </span>
       </button>
       <p class="sr" id="holdHelp">Pressione e segure por cinco segundos. Soltar antes faz o progresso voltar.</p>
 
@@ -601,50 +631,88 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   <!-- 4. o codigo -->
   <section class="sec" id="codigo" data-tag="04 / O CÓDIGO">
     <div class="wrap code">
-      <div>
-        <p class="mono rise">// O código</p>
-        <h2 class="h2 rise" style="margin-top:18px">Quinze princípios.<br>Seis frentes.</h2>
-        <p class="code__note rise">Cada princípio é uma regra escrita, curta o bastante para você lembrar às seis da
-          manhã e dura o bastante para não caber negociação. Eles atravessam seis frentes, e cada frente resolve um
-          pedaço diferente do mesmo problema.</p>
-        <div class="code__img rise" role="img" aria-label="Feixes de luz paralelos atravessando a névoa escura"></div>
+      <div class="code__side">
+        <p class="mono">// O código</p>
+        <h2 class="h2 rise" style="margin-top:18px">Quinze princípios.<br>Um por capítulo.</h2>
+        <p class="code__note rise">Cada princípio é um capítulo curto, e cada capítulo já entrega algo que você
+          aplica no mesmo dia. São estes 15, nesta ordem, e o livro inteiro leva cerca de 20 minutos.</p>
+        <div class="code__img" role="img" aria-label="Feixes de luz paralelos atravessando a névoa escura"></div>
       </div>
       <div class="notches" id="notches">
         <div class="notch">
           <span class="notch__n">01</span>
-          <div><p class="notch__t">Mentalidade de elite</p>
-            <p class="notch__d">Como pensa quem entrega de verdade, e o tipo de decisão que constrói resultado no
-              longo prazo em vez de alívio agora.</p></div>
+          <div><p class="notch__t">O Homem Que Você Está Se Tornando</p>
+            <p class="notch__d">Identidade, escolhas e o processo invisível da transformação.</p></div>
         </div>
         <div class="notch">
           <span class="notch__n">02</span>
-          <div><p class="notch__t">Disciplina sustentável</p>
-            <p class="notch__d">Hábitos que se mantêm nos dias difíceis, sem depender de motivação nem de força de
-              vontade para funcionar.</p></div>
+          <div><p class="notch__t">A Guerra Invisível da Mente</p>
+            <p class="notch__d">Como pensamentos moldam sua realidade e seus limites.</p></div>
         </div>
         <div class="notch">
           <span class="notch__n">03</span>
-          <div><p class="notch__t">Foco aplicado</p>
-            <p class="notch__d">Para onde apontar a sua energia, e como parar de gastar o dia inteiro no que não
-              move o ponteiro.</p></div>
+          <div><p class="notch__t">Crenças Que Constroem ou Destroem Destinos</p>
+            <p class="notch__d">Identificando e substituindo crenças limitantes.</p></div>
         </div>
         <div class="notch">
           <span class="notch__n">04</span>
-          <div><p class="notch__t">Resultados reais</p>
-            <p class="notch__d">Os mesmos princípios que gente de alta performance usa no esporte, nos negócios e
-              na vida pessoal.</p></div>
+          <div><p class="notch__t">O Poder das Decisões Diárias</p>
+            <p class="notch__d">Como pequenas escolhas definem seu futuro.</p></div>
         </div>
         <div class="notch">
           <span class="notch__n">05</span>
-          <div><p class="notch__t">Controle emocional</p>
-            <p class="notch__d">Decidir com clareza debaixo de pressão, em vez de reagir no impulso e pagar a conta
-              depois.</p></div>
+          <div><p class="notch__t">Como os Hábitos Moldam Seu Futuro</p>
+            <p class="notch__d">A ciência por trás dos comportamentos automáticos.</p></div>
         </div>
         <div class="notch">
           <span class="notch__n">06</span>
-          <div><p class="notch__t">Alta performance</p>
-            <p class="notch__d">O que separa quem chega de quem só planeja chegar, destrinchado em prática e não em
-              frase de efeito.</p></div>
+          <div><p class="notch__t">A Ciência da Disciplina</p>
+            <p class="notch__d">Por que disciplina vale mais do que motivação.</p></div>
+        </div>
+        <div class="notch">
+          <span class="notch__n">07</span>
+          <div><p class="notch__t">Vencendo a Procrastinação</p>
+            <p class="notch__d">Estratégias práticas para agir sem esperar.</p></div>
+        </div>
+        <div class="notch">
+          <span class="notch__n">08</span>
+          <div><p class="notch__t">A Rotina Matinal da Alta Performance</p>
+            <p class="notch__d">Como dominar as primeiras horas do dia.</p></div>
+        </div>
+        <div class="notch">
+          <span class="notch__n">09</span>
+          <div><p class="notch__t">O Poder do Foco</p>
+            <p class="notch__d">Atenção como sua maior vantagem competitiva.</p></div>
+        </div>
+        <div class="notch">
+          <span class="notch__n">10</span>
+          <div><p class="notch__t">A Arte da Persistência</p>
+            <p class="notch__d">Continuar quando tudo conspira para parar.</p></div>
+        </div>
+        <div class="notch">
+          <span class="notch__n">11</span>
+          <div><p class="notch__t">Como Desenvolver Autoconfiança</p>
+            <p class="notch__d">Construindo confiança através da ação.</p></div>
+        </div>
+        <div class="notch">
+          <span class="notch__n">12</span>
+          <div><p class="notch__t">O Poder da Responsabilidade Pessoal</p>
+            <p class="notch__d">Assumir o controle e parar de buscar culpados.</p></div>
+        </div>
+        <div class="notch">
+          <span class="notch__n">13</span>
+          <div><p class="notch__t">A Mentalidade da Prosperidade</p>
+            <p class="notch__d">Pensamento financeiro que precede a riqueza.</p></div>
+        </div>
+        <div class="notch">
+          <span class="notch__n">14</span>
+          <div><p class="notch__t">O Poder da Influência e da Persuasão</p>
+            <p class="notch__d">Comunicação e liderança no dia a dia.</p></div>
+        </div>
+        <div class="notch">
+          <span class="notch__n">15</span>
+          <div><p class="notch__t">A Transformação Começa Agora</p>
+            <p class="notch__d">Da teoria à ação, seu próximo passo.</p></div>
         </div>
       </div>
     </div>
@@ -654,20 +722,21 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   <section class="sec prod" id="produto" data-tag="05 / O E-BOOK">
     <div class="wrap prod__grid">
       <div class="prod__shot rise">
-        <img src="assets/capa.png" alt="Capa do e-book O Código da Disciplina" id="capa"
+        <img src="assets/capa.jpg" alt="O e-book O Código da Disciplina, capa preta com letras douradas, apoiado numa rocha ao amanhecer"
+             id="capa" width="980" height="1000" loading="lazy" decoding="async"
              onerror="this.remove();document.getElementById('capaFb').hidden=false">
         <div class="prod__fallback" id="capaFb" hidden>
           <p class="mono" style="color:var(--accent-muted)">Foco sem Desculpas</p>
-          <p style="font-family:'Archivo Black',sans-serif;font-size:1.5rem;line-height:1;text-transform:uppercase">
+          <p style="font-family:'Bodoni Moda',Georgia,serif;font-weight:500;font-size:1.5rem;line-height:1.05;text-transform:uppercase">
             O Código da Disciplina</p>
         </div>
       </div>
       <div>
-        <p class="mono rise">// O que você recebe</p>
+        <p class="mono">// O que você recebe</p>
         <h2 class="h2 rise" style="margin-top:18px">O livro inteiro, no seu e-mail.</h2>
         <ul class="gets rise">
           <li><b>O e-book completo em PDF</b>, com os 15 princípios do Código da Disciplina.</li>
-          <li><b>Cerca de duas horas de leitura.</b> Cada capítulo já entrega algo que você aplica no mesmo dia.</li>
+          <li><b>Cerca de 20 minutos de leitura.</b> São 15 capítulos curtos, e cada um já entrega algo que você aplica no mesmo dia.</li>
           <li><b>Entrega imediata.</b> O link chega no seu e-mail assim que o pagamento é aprovado.</li>
           <li><b>Lê em qualquer aparelho.</b> Celular, computador, tablet, ou impresso se você preferir papel.</li>
           <li><b>Atualizações grátis.</b> Toda versão nova do livro aparece na sua área da Kiwify, sem pagar de novo.</li>
@@ -689,14 +758,15 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   <!-- 6. objecoes -->
   <section class="sec" id="objecoes" data-tag="06 / DÚVIDAS">
     <div class="wrap">
-      <p class="mono rise">// Antes de você perguntar</p>
+      <p class="mono">// Antes de você perguntar</p>
       <h2 class="h2 rise" style="margin-top:18px">As dúvidas honestas.</h2>
       <div class="faq" id="faq">
         <div class="faq__i">
           <button class="faq__q" aria-expanded="false">E se eu comprar e não ler?<span class="faq__ic" aria-hidden="true"></span></button>
-          <div class="faq__a"><div><p>Essa é a pergunta certa, e é por isso que o livro foi escrito em princípios
-            curtos em vez de capítulos longos. O livro inteiro leva cerca de duas horas, e você não precisa de um fim de
-            semana livre para começar. Precisa de um princípio por vez, e o primeiro cabe em uma sentada.</p></div></div>
+          <div class="faq__a"><div><p>Essa é a pergunta certa, e a resposta é o tamanho do livro. São 15 capítulos
+            curtos, cerca de 20 minutos de leitura no total. Cabe no caminho do trabalho, numa fila ou antes de dormir.
+            Você não precisa reservar um fim de semana, precisa de um capítulo por vez, e o primeiro cabe em uma
+            sentada.</p></div></div>
         </div>
         <div class="faq__i">
           <button class="faq__q" aria-expanded="false">Isso não é mais autoajuda reciclada?<span class="faq__ic" aria-hidden="true"></span></button>
@@ -738,17 +808,17 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   <!-- 7. quem escreveu -->
   <section class="sec who" id="autor" data-tag="07 / QUEM ESCREVEU">
     <div class="wrap">
-      <p class="mono rise">// Quem escreveu</p>
-      <img class="who__logo rise" src="assets/logo.png" alt="" width="76" height="76" aria-hidden="true"
+      <p class="mono">// Quem escreveu</p>
+      <img class="who__logo" src="assets/logo.png" alt="" width="76" height="76" aria-hidden="true"
            onerror="this.remove()">
       <h2 class="h3 rise" style="margin-top:18px;font-family:Sora,sans-serif;text-transform:none;font-weight:600;line-height:1.35">
         Matheus de Oliveira Salvajoli</h2>
-      <p class="who__p rise">Estuda o que separa quem entrega de quem só tenta. Em O Código da Disciplina ele escreveu
+      <p class="who__p">Estuda o que separa quem entrega de quem só tenta. Em O Código da Disciplina ele escreveu
         os princípios e as práticas que mais mudaram a própria rotina dele, no formato que ele queria ter recebido
         quando começou.</p>
       <blockquote class="who__q rise">Disciplina não é castigo. É o caminho mais curto entre você e a versão que você
         ainda não conheceu.</blockquote>
-      <p class="who__sig rise">Foco sem Desculpas</p>
+      <p class="who__sig">Foco sem Desculpas</p>
     </div>
   </section>
 
@@ -756,12 +826,12 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   <section class="sec end" id="fechar" data-tag="08 / DECIDA">
     <div class="end__bg" aria-hidden="true"></div>
     <div class="wrap">
-      <p class="mono rise">// Decida</p>
+      <p class="mono">// Decida</p>
       <h2 class="rise">Amanhã de manhã<br>a negociação<br>começa de novo.</h2>
       <p class="end__p rise">A diferença é se você vai entrar nela sem nada na mão, de novo, ou com quinze regras
         já decididas.</p>
-      <a class="btn btn--lg rise" href="https://pay.kiwify.com.br/IZU4vKK" rel="noopener">Quero o meu código</a>
-      <p class="end__price rise">R$ 19,90, pagamento único &middot; Garantia de 7 dias &middot; Acesso imediato</p>
+      <a class="btn btn--lg" href="https://pay.kiwify.com.br/IZU4vKK" rel="noopener">Quero o meu código</a>
+      <p class="end__price">R$ 19,90, pagamento único &middot; Garantia de 7 dias &middot; Acesso imediato</p>
     </div>
   </section>
 
@@ -992,11 +1062,19 @@ function updateRail(){
   var now=performance.now();
   if(now-lastTagAt>120){
     lastTagAt=now;
-    var cur='';
+    /* a secao do rotulo e a que tem o MEIO mais perto do meio da tela.
+       parar na primeira que cruza a faixa fazia o hero, que e altissimo,
+       ganhar de secoes que estavam de fato na tela */
+    var cur='', melhor=Infinity, meio=window.innerHeight*0.5;
     for(var i=0;i<secs.length;i++){
       var r=secs[i].getBoundingClientRect();
-      if(r.top<window.innerHeight*0.55&&r.bottom>window.innerHeight*0.35){ cur=secs[i].dataset.tag||''; break; }
+      if(r.bottom<0||r.top>window.innerHeight) continue;
+      var d=Math.abs((Math.max(r.top,0)+Math.min(r.bottom,window.innerHeight))/2-meio);
+      if(d<melhor){ melhor=d; cur=secs[i].dataset.tag||''; }
     }
+    /* so o numero no fio lateral: o nome completo colidia com o rotulo da
+       propria secao, e ele ja diz onde voce esta */
+    cur=cur.split('/')[0].trim();
     if(cur!==lastTag){ lastTag=cur; railTag.textContent=cur; railTag.style.opacity=cur?'1':'0'; }
   }
 }
@@ -1028,12 +1106,15 @@ if(notches){
 /* ---------------- o momento interativo: cinco segundos ---------------- */
 var hold=document.getElementById('hold'), holdBar=document.getElementById('holdBar');
 var holdLbl=document.getElementById('holdLbl'), holdWin=document.getElementById('holdWin');
+var holdPct=document.getElementById('holdPct'), lastPctVal=-1;
 var HOLD_MS=5000, CIRC=440;
-var holding=false, prog=0, hRaf=null, hLast=0, holdDone=false, lastLblTxt='Segure';
+var holding=false, prog=0, hRaf=null, hLast=0, holdDone=false, lastLblTxt='Pressione e segure';
 
 function holdPaint(){
   holdBar.style.strokeDashoffset=(CIRC*(1-prog)).toFixed(1);
-  var txt = holdDone ? 'Feito' : holding ? Math.ceil((1-prog)*5)+'s' : 'Segure';
+  var v = Math.round(prog*100);
+  if(v!==lastPctVal){ lastPctVal=v; holdPct.textContent=v+'%'; }
+  var txt = holdDone ? 'Completo' : holding ? 'Segure' : 'Pressione e segure';
   if(txt!==lastLblTxt){ lastLblTxt=txt; holdLbl.textContent=txt; }
 }
 function holdTick(now){
@@ -1042,7 +1123,7 @@ function holdTick(now){
   else prog=clamp(prog-dt/(HOLD_MS*0.55),0,1);
   holdPaint();
   if(prog>=1&&!holdDone){ holdDone=true; holding=false; hold.classList.remove('armed');
-    holdWin.classList.add('on'); holdLbl.textContent='Feito'; lastLblTxt='Feito'; }
+    holdWin.classList.add('on'); holdPaint(); }
   if((holding||prog>0)&&!holdDone){ hRaf=requestAnimationFrame(holdTick); }
   else { hRaf=null; hLast=0; }
 }
